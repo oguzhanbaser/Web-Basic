@@ -16,7 +16,7 @@ var ledDurum = false;
 
 //var olan portları arayıp sonuncuya bağlandık
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-//port hatası alıyorsanız bu kısmı silip portu elle giriniz!!!!!!!!!!!!!!!!!!!!!!!!!
+//port hatası alıyorsanız bu kısmı silip portu 'portName' isimli değişkeni değişerek giriniz!!!!!!!!!!!!!!!!!!!!!!!!!
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 com.list(function (err, ports) {
 	ports.forEach(function(port) {
