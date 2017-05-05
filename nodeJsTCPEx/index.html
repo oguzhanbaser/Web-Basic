@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title></title>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.js"></script>
+    <script>
+        var socket = io.connect("http://localhost:3000");   //sokete client' ten bağlandık
+    </script>
+    <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script>
+</head>
+<body>
+    <center>
+    <button onclick="lm35Function()">LM35 Değer</button>
+    <input type="checkbox" id="lm35Interval" onclick="lm35CallBack()">
+    <p id="lm35">--</p>
+
+    <button onclick="ldrFunction()">LDR Değer</button>
+    <input type="checkbox" id="ldrInterval" onclick="ldrCallBack()">
+    <p id="ldr">--</p>
+
+
+    <button onclick="led1Function()">Led1 Durum</button><p id="led1">--</p>
+    <button onclick="led2Function()">Led2 Durum</button><p id="led2">--</p>
+
+    </center>
+    <script type="text/javascript">
+
+        //pot butonu basılmışsa _pot event i gönderdik
+        function lm35Function()
+        {
+            socket.emit('lm35', { });
+        }
+        //led butonunas basılmışsa _led event i gönderdik
+        function ldrFunction()
+        {
+            socket.emit('ldr', { });
+        }
+
+        //pot butonu basılmışsa _pot event i gönderdik
+        function led1Function()
+        {
+            socket.emit('led1', { });
+        }
+        //led butonunas basılmışsa _led event i gönderdik
+        function led2Function()
+        {
+            socket.emit('led2', { });
+        }
+
+        
+        var lm35IntervalFunc;
+        function lm35CallBack()
+        {
+            if(document.getElementById('lm35Interval').checked)
+            {
+                lm35IntervalFunc = setInterval(lm35Function, 500);
+            }else{
+                clearInterval(lm35IntervalFunc);
+            }
+        }
+
+        var ldrIntervalFunc;
+        function ldrCallBack()
+        {
+            if(document.getElementById('ldrInterval').checked)
+            {
+                ldrIntervalFunc = setInterval(ldrFunction, 500);
+            }else{
+                clearInterval(ldrIntervalFunc);
+            }
+        }
+
+
+        //A0 daki değeri geri okuduk
+        socket.on('lm35res', function(_data)
+        {
+            document.getElementById('lm35').innerHTML = _data;
+        });
+        //ledin durumunu geri okuduk
+        socket.on('ldrres', function(_data){
+            document.getElementById('ldr').innerHTML = _data;
+        });
+        //A0 daki değeri geri okuduk
+        socket.on('led1res', function(_data)
+        {
+            document.getElementById('led1').innerHTML = _data;
+        });
+        //ledin durumunu geri okuduk
+        socket.on('led2res', function(_data){
+            document.getElementById('led2').innerHTML = _data;
+        });
+    </script>
+</body>
+</html>
