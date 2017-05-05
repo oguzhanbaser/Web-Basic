@@ -4,6 +4,7 @@
 <head>
     <title></title>
     
+    <!--socket io web source-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.js"></script>
     <script>
         var socket = io.connect("http://localhost:3000");   //sokete client' ten bağlandık
@@ -12,82 +13,94 @@
 </head>
 <body>
     <center>
+    <!--lm35 verisi görüntüle-->
     <button onclick="lm35Function()">LM35 Değer</button>
+    <!--lm35 verisini 500ms aralıkla sürekli görüntüle-->
     <input type="checkbox" id="lm35Interval" onclick="lm35CallBack()">
     <p id="lm35">--</p>
 
+    <!--ldr verisi görüntüle-->
     <button onclick="ldrFunction()">LDR Değer</button>
+    <!--ldr verisini 500ms aralıkla sürekli görüntüle-->
     <input type="checkbox" id="ldrInterval" onclick="ldrCallBack()">
     <p id="ldr">--</p>
 
-
+    <!--led yak söndür ve durum görüntüle-->
     <button onclick="led1Function()">Led1 Durum</button><p id="led1">--</p>
     <button onclick="led2Function()">Led2 Durum</button><p id="led2">--</p>
 
     </center>
     <script type="text/javascript">
 
-        //pot butonu basılmışsa _pot event i gönderdik
+        //lm35 değeri isteme fonksiyonu
         function lm35Function()
         {
             socket.emit('lm35', { });
         }
-        //led butonunas basılmışsa _led event i gönderdik
+        //ldr değeri isteme fonksiyonu
         function ldrFunction()
         {
             socket.emit('ldr', { });
         }
 
-        //pot butonu basılmışsa _pot event i gönderdik
+        //led1 değeri değiştirme ve değeri isteme fonksiyonu
         function led1Function()
         {
             socket.emit('led1', { });
         }
-        //led butonunas basılmışsa _led event i gönderdik
+
+        //led2 değeri değiştirme ve değeri isteme fonksiyonu
         function led2Function()
         {
             socket.emit('led2', { });
         }
-
-        
+      
         var lm35IntervalFunc;
         function lm35CallBack()
         {
+            //lm35 chekbox' u tıklanmışsa interval oluştur  
             if(document.getElementById('lm35Interval').checked)
             {
                 lm35IntervalFunc = setInterval(lm35Function, 500);
-            }else{
+            }//lm35 chekbox' u kaldırılmışsa interval' i sil  
+            else{
                 clearInterval(lm35IntervalFunc);
             }
         }
 
+          
         var ldrIntervalFunc;
         function ldrCallBack()
         {
+             //ldr chekbox' u tıklanmışsa interval oluştur  
             if(document.getElementById('ldrInterval').checked)
             {
                 ldrIntervalFunc = setInterval(ldrFunction, 500);
-            }else{
+            } //ldr chekbox' u kaldırılmışsa interval' i sil  
+            else{
                 clearInterval(ldrIntervalFunc);
             }
         }
 
 
-        //A0 daki değeri geri okuduk
+        //lm35 değeri geri dönmüşse ilgili yere yazdır
         socket.on('lm35res', function(_data)
         {
             document.getElementById('lm35').innerHTML = _data;
         });
-        //ledin durumunu geri okuduk
+        
+        //ldr değeri geri dönmüşse ilgili yere yazdır.
         socket.on('ldrres', function(_data){
             document.getElementById('ldr').innerHTML = _data;
         });
-        //A0 daki değeri geri okuduk
+
+        //led1 değeri geri dönmüşse ilgili yere yazdır
         socket.on('led1res', function(_data)
         {
             document.getElementById('led1').innerHTML = _data;
         });
-        //ledin durumunu geri okuduk
+
+        //led2 değeri geri dönmüşse ilgili yere yazdır
         socket.on('led2res', function(_data){
             document.getElementById('led2').innerHTML = _data;
         });

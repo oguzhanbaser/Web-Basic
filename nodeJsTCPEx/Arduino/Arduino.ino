@@ -59,36 +59,37 @@ void loop() {
     if (client.available() > 0) {
 
 
-      // read the bytes incoming from the client:
+      // Client' ten gelen veriyi oku
       char thisChar = client.read();
-      // echo the bytes back to the client:
-      Serial.print("Read Char: ");
+      // clientten gelen veriyi görüntüle
+      Serial.print("Okunan Karakter: ");
       Serial.print(thisChar);
       Serial.print(" ");
 
-      switch(thisChar)
+      switch(thisChar)              //gelen karaktere göre işlem yapalım
       {
-          case 'a':
+          case 'a':                 //a ise led yaka yada söndür
             digitalWrite(led1, !digitalRead(led1));
             sendVal = "led1|" + String(digitalRead(led1)) + "|";
             client.print(sendVal);
             break;
-          case 'b':
+          case 'b':               //b ise lm35 değerini ger gönder
             sendVal = "lm35|" + String(analogRead(A0) * 0.48828) + "|";
             client.print(sendVal);
             break;
-          case 'c':
+          case 'c':               //c ise led yak yana söndür
             digitalWrite(led2, !digitalRead(led2));
             sendVal = "led2|" + String(digitalRead(led2)) + "|";
             client.print(sendVal);
             break;
-          case 'd':
+          case 'd':               //d ise ldr değerini geri gönder
             sendVal = "ldr|" + String(analogRead(A1)) + "|";
             client.print(sendVal);
             break;
 
       }
 
+      //önceki tcp iletişim aradaki zamanı seri porta yazdırdık.
       Serial.print("Gecen Zaman: ");
       Serial.println(millis() - lastTime);
       lastTime = millis();
@@ -97,5 +98,4 @@ void loop() {
   }
 
 }
-
 
