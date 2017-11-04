@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<!-- saved from url=(0048)http://getbootstrap.com/docs/4.0/examples/cover/ -->
+<html lang="en"><style type="text/css" id="night-mode-pro-style"></style><link type="text/css" rel="stylesheet" id="night-mode-pro-link"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="http://getbootstrap.com/favicon.ico">
+
+    <title>Omega 2</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="./indexOmega_files/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="./indexOmega_files/cover.css" rel="stylesheet">
+  </head>
+
+  <body>
+
+    <div class="site-wrapper">
+
+      <div class="site-wrapper-inner">
+
+        <div class="cover-container">
+
+          <div class="masthead clearfix">
+            <div class="inner">
+              <h3 class="masthead-brand">Omega 2 Led Kontrol</h3>
+              <nav class="nav nav-masthead">
+                <a class="nav-link active" href="#">Ana Sayfa</a>
+              </nav>
+            </div>
+          </div>
+
+          <div class="inner cover">
+            <h1 class="cover-heading">Led Kontrol Sayfası</h1>
+            <p class="lead">
+              Led 1: <button onclick="led1Function()" type="button" id="led1" class="btn btn-primary">-----</button>
+            </p>
+            <p class="lead">
+              Led 2: <button onclick="led2Function()" type="button" id="led2" class="btn btn-primary">-----</button>
+            </p>
+          </div>
+
+          <div class="mastfoot">
+            <div class="inner">
+              <p>Omega 2 Led Kontrol Arayüzü, <a href="https://github.com/oguzhanbaser/">Oğuzhan BAŞER</a></p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="./indexOmega_files/jquery-3.2.1.slim.min.js.indir" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="../../../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+    <script src="./indexOmega_files/popper.min.js.indir"></script>
+    <script src="./indexOmega_files/bootstrap.min.js.indir"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="./indexOmega_files/ie10-viewport-bug-workaround.js.indir"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.js"></script>    
+    <script>
+      var socket = io.connect("http://" + window.location.hostname + ":3000");
+      
+      socket.on('led1res', function(_data)
+      {
+          document.getElementById('led1').innerHTML = (_data == true ? "Açık" : "Kapalı");
+      });
+
+      //led2 değeri geri dönmüşse ilgili yere yazdır
+      socket.on('led2res', function(_data){
+          document.getElementById('led2').innerHTML = (_data == false ? "Açık" : "Kapalı");
+      });
+
+      function led1Function()
+      {
+          socket.emit('led1', { });
+      }
+
+      //led2 değeri değiştirme ve değeri isteme fonksiyonu
+      function led2Function()
+      {
+          socket.emit('led2', { });
+      }
+
+    </script>
+  
+
+</body></html>
