@@ -1,7 +1,7 @@
 var mqtt = require('mqtt');				//include library
 
-var my_token_name = "my-key-61";            //your token name
-var my_token = "8f078356f5b1d029";          //your token code
+var my_token_name = "**TOKEN_NAME**";            //your token name
+var my_token = "**TOKEN**";          //your token code
 
 var client = mqtt.connect('mqtt://' + my_token_name +':' + my_token + '@broker.shiftr.io');
 
