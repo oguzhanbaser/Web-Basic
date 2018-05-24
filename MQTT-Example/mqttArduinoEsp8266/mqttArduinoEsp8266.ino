@@ -5,8 +5,8 @@
 #include <PubSubClient.h>
 
 char connID[] = "broker.shiftr.io";
-char ssid[] = "TTNET_AirTies_Air5650_4AY8";           // your network SSID (name)
-char pass[] = "YF6bfaK2p6";           // your network password
+char ssid[] = "***SSID***";           // your network SSID (name)
+char pass[] = "***PSWD***";           // your network password
 char user_token_name[] = "my-key-61";          //your shiftr user token name
 char user_token[] = "8f078356f5b1d029";  //your shiftr user token
 
