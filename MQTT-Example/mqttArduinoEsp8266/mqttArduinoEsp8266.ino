@@ -7,8 +7,8 @@
 char connID[] = "broker.shiftr.io";
 char ssid[] = "***SSID***";           // your network SSID (name)
 char pass[] = "***PSWD***";           // your network password
-char user_token_name[] = "my-key-61";          //your shiftr user token name
-char user_token[] = "8f078356f5b1d029";  //your shiftr user token
+char user_token_name[] = "***your token name**";          //your shiftr user token name
+char user_token[] = "***your token***";  //your shiftr user token
 
 int status = WL_IDLE_STATUS;
 
