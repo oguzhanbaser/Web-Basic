@@ -1,0 +1,157 @@
+{
+  "device": {
+    "id": "my-esp8266", 
+    "password": ""
+  }, 
+  "debug": {
+    "udp_log_addr": "", 
+    "mbedtls_level": 0, 
+    "level": 2, 
+    "filter": "", 
+    "stdout_uart": 0, 
+    "stderr_uart": 0, 
+    "factory_reset_gpio": -1, 
+    "mg_mgr_hexdump_file": "", 
+    "stdout_topic": "", 
+    "stderr_topic": ""
+  }, 
+  "sys": {
+    "mount": {
+      "path": "", 
+      "dev_type": "", 
+      "dev_opts": "", 
+      "fs_type": "", 
+      "fs_opts": ""
+    }, 
+    "tz_spec": "", 
+    "wdt_timeout": 30, 
+    "pref_ota_lib": ""
+  }, 
+  "conf_acl": "*", 
+  "mjs": {
+    "generate_jsc": true
+  }, 
+  "mqtt": {
+    "enable": true, 
+    "server": "broker.shiftr.io:1883", 
+    "client_id": "", 
+    "user": "my-key-2", 
+    "pass": "5db645c0e24f8b38", 
+    "reconnect_timeout_min": 2.0, 
+    "reconnect_timeout_max": 60.0, 
+    "ssl_cert": "", 
+    "ssl_key": "", 
+    "ssl_ca_cert": "", 
+    "ssl_cipher_suites": "", 
+    "ssl_psk_identity": "", 
+    "ssl_psk_key": "", 
+    "clean_session": true, 
+    "keep_alive": 60, 
+    "will_topic": "", 
+    "will_message": "", 
+    "max_qos": 2, 
+    "recv_mbuf_limit": 3072
+  }, 
+  "rpc": {
+    "enable": true, 
+    "max_frame_size": 4096, 
+    "max_queue_length": 25, 
+    "default_out_channel_idle_close_timeout": 10, 
+    "acl_file": "", 
+    "auth_domain": "", 
+    "auth_file": "", 
+    "ws": {
+      "enable": true, 
+      "server_address": "", 
+      "reconnect_interval_min": 1, 
+      "reconnect_interval_max": 60, 
+      "ssl_server_name": "", 
+      "ssl_ca_file": "", 
+      "ssl_client_cert_file": ""
+    }, 
+    "mqtt": {
+      "enable": false, 
+      "pub_topic": "%.*s/rpc", 
+      "sub_topic": "%.*s/rpc", 
+      "sub_wc": true, 
+      "qos": 1
+    }, 
+    "uart": {
+      "uart_no": 0, 
+      "baud_rate": 115200, 
+      "fc_type": 2, 
+      "wait_for_start_frame": true
+    }
+  }, 
+  "wifi": {
+    "ap": {
+      "enable": false, 
+      "ssid": "Mongoose_??????", 
+      "pass": "Mongoose", 
+      "hidden": false, 
+      "channel": 6, 
+      "max_connections": 10, 
+      "ip": "192.168.4.1", 
+      "netmask": "255.255.255.0", 
+      "gw": "192.168.4.1", 
+      "dhcp_start": "192.168.4.2", 
+      "dhcp_end": "192.168.4.100", 
+      "trigger_on_gpio": -1, 
+      "disable_after": 0, 
+      "hostname": "", 
+      "keep_enabled": true
+    }, 
+    "sta": {
+      "enable": true, 
+      "ssid": "TTNET_AirTies_Air5650_4AY8", 
+      "pass": "YF6bfaK2p6", 
+      "user": "", 
+      "anon_identity": "", 
+      "cert": "", 
+      "key": "", 
+      "ca_cert": "", 
+      "ip": "", 
+      "netmask": "", 
+      "gw": "", 
+      "nameserver": "", 
+      "dhcp_hostname": ""
+    }, 
+    "sta1": {
+      "enable": false, 
+      "ssid": "", 
+      "pass": "", 
+      "user": "", 
+      "anon_identity": "", 
+      "cert": "", 
+      "key": "", 
+      "ca_cert": "", 
+      "ip": "", 
+      "netmask": "", 
+      "gw": "", 
+      "nameserver": "", 
+      "dhcp_hostname": ""
+    }, 
+    "sta2": {
+      "enable": false, 
+      "ssid": "", 
+      "pass": "", 
+      "user": "", 
+      "anon_identity": "", 
+      "cert": "", 
+      "key": "", 
+      "ca_cert": "", 
+      "ip": "", 
+      "netmask": "", 
+      "gw": "", 
+      "nameserver": "", 
+      "dhcp_hostname": ""
+    }, 
+    "sta_cfg_idx": 0, 
+    "sta_connect_timeout": 30
+  }, 
+  "app": {
+    "dhtPin": 5, 
+    "ledPin1": 2, 
+    "btn": 15
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "arch": "esp8266",
+  "platform": "esp8266",
+  "app_name": "my-app",
+  "build_time_ms": 14041
+}
