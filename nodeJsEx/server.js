@@ -7,82 +7,86 @@ var port = 3000;
 
 ////////////////////////////////////////////////////////
 //arduino kısmı/////////////////////////////////////////
-var com = require("serialport"); 	//seri port kütüphanesini çağırdık
-var portName = "/dev/ttyACM0";		//default port adı
-var serialPort;
+
+var portName = "COM18";		//port adı
+var baudRate = 9600;        //port baud rate
 
 var ledDurum = false;
-
+const SerialPort = require('serialport');   //seri port kütüphanesini çağırdık
+const Readline = require('@serialport/parser-readline');
+var portIsOpen = false;
 
 //var olan portları arayıp sonuncuya bağlandık
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //port hatası alıyorsanız bu kısmı silip portu 'portName' isimli değişkeni değişerek giriniz!!!!!!!!!!!!!!!!!!!!!!!!!
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-com.list(function (err, ports) {
-	ports.forEach(function(port) {
-    //console.log(port.comName);
-
-    	portName = port.comName;
-	});
+SerialPort.list().then(function(pData){
+    portName = pData[0].path;
 });
+
 
 //portun bulunabilmesi için 1 sn gecikme verdik
 setTimeout(function(){
-	serialPort = new com.SerialPort(portName, {
-		baudrate: 9600,
-		parser: com.parsers.readline('\r\n')
-	});
+    const sPort = new SerialPort(portName, {
+        baudRate: baudRate,
+        autoOpen: true
+    });
+    const parser = sPort.pipe(new Readline({ delimiter: '\r\n' }));
 
 	//hata varsa hatayı gösterdik yoksa porta bağlandık
-	serialPort.on('open',function(error) {
+	sPort.on('open',function(error) {
 		if(error)
 			console.log("failed to open" + error);
 		else
     		console.log('Port open');
+            portIsOpen = true;
   	});
+
+
+    ////////////////////////////////////////////////////////
+    //server kısmı//////////////////////////////////////////
+
+    app.use(express.static(path.join(__dirname)));
+
+    app.get('/', function(req ,res) {
+        res.sendFile (__dirname + '/indexPot.html');
+    });
+
+    //server ile socketi açtık
+    socket.on('connection', function(io){
+        console.log("Biri baglandı");
+        //led butonuna basılmışsa led durumunu değiştir
+        io.on('_led', function(){		//client ten gelen _led isimli event
+            console.log("Butona basıldı");
+            if(portIsOpen)
+            {
+                sPort.write("#\n");	//arduino ya led yanması için # gönderdik
+                ledDurum = !ledDurum;
+                io.emit('_ledRes', ledDurum == true ? "Led yandı" : "Led sondu");
+            }
+        });
+
+        //pot butonuna basılmışsa pottaki değeri okuyup geri dön
+        io.on('_pot', function(){		//client ten gelen _pot isimli event
+            console.log("Butona basıldı");
+            if(portIsOpen)
+            {
+                sPort.write("$\n");	//arduino ya A0 dan veri okuması için $ gönderdik
+
+                parser.on('data', function(_data)
+                {
+                    io.emit('_potRes', _data);		//client e geri arduino dan data
+                                                    //gönderdik
+                });	
+            }
+        })
+    });
+
+    //portu dinle
+    http.listen(port,function(){
+        console.log("Listeining: ", port);
+    });
+
+
 }, 1000);
-
-////////////////////////////////////////////////////////
-//server kısmı//////////////////////////////////////////
-
-app.use(express.static(path.join(__dirname)));
-
-app.get('/', function(req ,res) {
-	res.sendfile (__dirname + '/indexPot.html');
-});
-
-//server ile socketi açtık
-socket.on('connection', function(io){
-	console.log("Biri baglandı");
-	//led butonuna basılmışsa led durumunu değiştir
-	io.on('_led', function(){		//client ten gelen _led isimli event
-		console.log("Butonuna basıldı");
-		if(serialPort.isOpen())
-		{
-			serialPort.write("#\n");	//arduino ya led yanması için # gönderdik
-			ledDurum = !ledDurum;
-			io.emit('_ledRes', ledDurum == true ? "Led yandı" : "Led sondu");
-		}
-	});
-
-	//pot butonuna basılmışsa pottaki değeri okuyup geri dön
-	io.on('_pot', function(){		//client ten gelen _pot isimli event
-		console.log("Butona basıldı");
-		if(serialPort.isOpen())
-		{
-			serialPort.write("$\n");	//arduino ya A0 dan veri okuması için $ gönderdik
-			serialPort.on('data', function(_data)
-			{
-				io.emit('_potRes', _data);		//client e geri arduino dan data
-												//gönderdik
-			});			
-		}
-	})
-});
-
-//portu dinle
-http.listen(port,function(){
-	console.log("Listeining: ", port);
-});
-
 
